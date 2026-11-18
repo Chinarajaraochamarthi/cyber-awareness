@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cyber Awareness Module — Resilience Cybersecurity Team. Interactive tabletop exercise and a 15-question quiz with personalised tips and a completion certificate.">
+  <meta name="author" content="Resilience Cybersecurity Team">
+  <!-- Open Graph (for nice link previews when shared) -->
+  <meta property="og:title" content="Cyber Awareness Module — Resilience Team">
+  <meta property="og:description" content="Interactive tabletop exercise + 15-question quiz based on real cyber incidents, with personalised tips and a completion certificate.">
+  <meta property="og:type" content="website">
+  <title>Cyber Awareness — Resilience Team</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" role="navigation" aria-label="Module navigation">
+    <div class="nav-brand" onclick="goHome()">
+      <img src="assets/logo.png" alt="Resilience logo" class="nav-logo">
+      <div class="nav-brand-text">
+        <span class="nav-title">Resilience</span>
+        <span class="nav-sub">Cyber Awareness</span>
+      </div>
+    </div>
+    <div class="nav-steps" id="nav-steps">
+      <button class="nav-step" id="nav-home" onclick="goHome()" aria-label="Home">Home</button>
+      <div class="nav-divider"></div>
+      <button class="nav-step" id="nav-tabletop" onclick="startTabletop()" aria-label="Tabletop exercise">Tabletop</button>
+      <div class="nav-divider"></div>
+      <button class="nav-step" id="nav-quiz" onclick="startQuiz()" aria-label="Quiz">Quiz</button>
+      <div class="nav-divider"></div>
+      <button class="nav-step" id="nav-results" aria-label="Results" disabled>Results</button>
+    </div>
+    <button class="nav-menu-btn" id="nav-menu-btn" onclick="toggleMobileMenu()" aria-label="Open menu">☰</button>
+  </nav>
+
+  <!-- Mobile nav dropdown -->
+  <div class="mobile-nav" id="mobile-nav">
+    <button onclick="goHome(); toggleMobileMenu()">🏠 Home</button>
+    <button onclick="startTabletop(); toggleMobileMenu()">📋 Tabletop Exercise</button>
+    <button onclick="startQuiz(); toggleMobileMenu()">🎯 Quiz</button>
+  </div>
+
+  <!-- ═══ MODULE PROGRESS ═══ -->
+  <div class="module-progress" id="module-progress" style="display:none" aria-label="Overall module progress">
+    <div class="mp-inner">
+      <div class="mp-step" id="mp-step-1">
+        <div class="mp-dot" id="mp-dot-1">1</div>
+        <span>Tabletop</span>
+      </div>
+      <div class="mp-line" id="mp-line-1"></div>
+      <div class="mp-step" id="mp-step-2">
+        <div class="mp-dot" id="mp-dot-2">2</div>
+        <span>Quiz</span>
+      </div>
+      <div class="mp-line" id="mp-line-2"></div>
+      <div class="mp-step" id="mp-step-3">
+        <div class="mp-dot" id="mp-dot-3">✓</div>
+        <span>Results</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ HOME ════════════════════════════ -->
+  <main id="screen-home" class="screen active" role="main">
+    <div class="home-hero">
+      <div class="hero-inner">
+        <img src="assets/logo.png" alt="Resilience Cybersecurity Team logo" class="hero-logo">
+        <div class="eyebrow">🛡️ Cyber Wednesday · November 2026</div>
+        <h1 class="hero-title">Know the Threat.<br><em>Build the Habit.</em></h1>
+        <p class="hero-desc">Two exercises. One goal: recognise an attack when it happens — and know exactly what to do. Complete both to earn your personalised tips and a certificate of completion.</p>
+        <div class="hero-tags">
+          <span class="tag">📞 Vishing</span>
+          <span class="tag">📧 BEC</span>
+          <span class="tag">🔐 MFA Attacks</span>
+          <span class="tag">🎙️ Deepfake</span>
+          <span class="tag">+10 more</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-cards">
+      <div class="home-card" onclick="startTabletop()" tabindex="0" role="button" onkeydown="if(event.key==='Enter')startTabletop()">
+        <div class="card-step-label">Step 1 · ~15 mins</div>
+        <div class="card-icon">📋</div>
+        <h2 class="card-title">Tabletop Exercise</h2>
+        <p class="card-desc">Walk through a real vishing scenario step by step. Discuss what you'd do at each decision point before reading on.</p>
+        <div class="card-cta">Start exercise <span class="arrow">→</span></div>
+      </div>
+
+      <div class="home-card home-card--green" onclick="startQuiz()" tabindex="0" role="button" onkeydown="if(event.key==='Enter')startQuiz()">
+        <div class="card-step-label">Step 2 · ~10 mins</div>
+        <div class="card-icon">🎯</div>
+        <h2 class="card-title">Scenario Quiz</h2>
+        <p class="card-desc">15 questions drawn from real incidents. Answer honestly — your personalised tips are based only on what you get wrong.</p>
+        <div class="card-cta">Take the quiz <span class="arrow">→</span></div>
+      </div>
+    </div>
+
+    <div class="home-note">You can do both in any order, or jump straight to the quiz if you're short on time.</div>
+
+    <div class="incident-strip">
+      <div class="is-label">Real incidents covered</div>
+      <div class="incidents">
+        <span>Odido breach · Feb 2026</span>
+        <span>MGM Resorts 2023</span>
+        <span>Uber MFA fatigue 2022</span>
+        <span>Colonial Pipeline</span>
+        <span>Deepfake CEO fraud</span>
+        <span>SolarWinds-style supply chain</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════ TABLETOP ════════════════════════════ -->
+  <main id="screen-tabletop" class="screen" role="main">
+    <div class="page-wrap">
+
+      <div class="screen-header">
+        <div class="eyebrow">📋 Tabletop Exercise</div>
+        <h1 class="screen-title">When the Call Sounds Real</h1>
+        <p class="screen-desc">Scenario: A vishing attack modelled on the Odido breach (Feb 2026, 6.39M records). Work through each step — read the situation, think it through or discuss as a team, then continue.</p>
+      </div>
+
+      <div class="tt-progress" role="progressbar" aria-label="Exercise steps">
+        <div class="tt-dot active" id="tt-dot-1" aria-label="Step 1">1</div>
+        <div class="tt-line" id="tt-line-1"></div>
+        <div class="tt-dot" id="tt-dot-2" aria-label="Step 2">2</div>
+        <div class="tt-line" id="tt-line-2"></div>
+        <div class="tt-dot" id="tt-dot-3" aria-label="Step 3">3</div>
+        <div class="tt-line" id="tt-line-3"></div>
+        <div class="tt-dot" id="tt-dot-db" aria-label="Debrief">✓</div>
+      </div>
+
+      <div class="scenario-box">
+        <div class="sb-label">The Scenario</div>
+        <p>It's a Tuesday afternoon. A member of your team receives a call from someone who identifies themselves as an IT technician. The caller says they've detected suspicious activity linked to the team's shared account and that credentials must be reset within the hour — or access will be suspended for the entire department.</p>
+        <blockquote class="sb-quote">"I'm calling from the IT helpdesk. We've flagged an unusual login from your account. I need you to verify your current password so I can push the reset before the system locks tonight. It'll take two minutes."</blockquote>
+      </div>
+
+      <div class="tt-step-panel" id="tt-panel-1">
+        <div class="step-panel">
+          <div class="sp-header">
+            <span class="sp-badge">Step 1</span>
+            <span class="sp-title">First Contact — The Moment You Receive the Call</span>
+          </div>
+          <div class="sp-context">The call just came in. You've been on the phone 30 seconds. The caller sounds calm, professional, and uses internal terminology. You haven't confirmed or denied anything yet.</div>
+          <div class="sp-body">
+            <div class="discuss-label">Discuss with your team (or think through yourself)</div>
+            <ul class="discuss-list">
+              <li>What specific red flags, if any, do you notice in the caller's language?</li>
+              <li>Would the urgency framing ("before the system locks tonight") affect your response — and why?</li>
+              <li>What would you say to the caller in this moment, and what would you NOT say?</li>
+              <li>Does the fact that they know your name and team make them more credible?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tt-actions">
+          <button class="btn-outline" onclick="goHome()">← Back to home</button>
+          <button class="btn-primary" onclick="ttNext(1)">Continue to Step 2 →</button>
+        </div>
+      </div>
+
+      <div class="tt-step-panel" id="tt-panel-2" style="display:none">
+        <div class="step-panel">
+          <div class="sp-header">
+            <span class="sp-badge">Step 2</span>
+            <span class="sp-title">Verification — Confirming Identity Before Acting</span>
+          </div>
+          <div class="sp-context">You've decided not to give any information over the phone. The caller insists they're legitimate and says: "I can give you a callback number so you can confirm the ticket with my manager."</div>
+          <div class="sp-body">
+            <div class="discuss-label">Discuss with your team (or think through yourself)</div>
+            <ul class="discuss-list">
+              <li>Why is the callback number the caller provides potentially compromised?</li>
+              <li>Where would you independently find the real IT contact number?</li>
+              <li>How do you end the call politely without revealing anything further?</li>
+              <li>What would you tell your manager immediately after hanging up?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tt-actions">
+          <button class="btn-outline" onclick="ttBack(2)">← Back to Step 1</button>
+          <button class="btn-primary" onclick="ttNext(2)">Continue to Step 3 →</button>
+        </div>
+      </div>
+
+      <div class="tt-step-panel" id="tt-panel-3" style="display:none">
+        <div class="step-panel">
+          <div class="sp-header">
+            <span class="sp-badge">Step 3</span>
+            <span class="sp-title">After the Call — Escalation and Reporting</span>
+          </div>
+          <div class="sp-context">You've ended the call. You verified with the real IT team using a number you found independently: no one called you. The attack is part of a wider campaign targeting multiple people in your organisation.</div>
+          <div class="sp-body">
+            <div class="discuss-label">Discuss with your team (or think through yourself)</div>
+            <ul class="discuss-list">
+              <li>Who do you notify first — your manager, IT, or the security team?</li>
+              <li>What specific information should your incident report contain?</li>
+              <li>How do you alert other team members who may receive the same call?</li>
+              <li>Should you tell anyone outside the organisation? Why or why not?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tt-actions">
+          <button class="btn-outline" onclick="ttBack(3)">← Back to Step 2</button>
+          <button class="btn-primary btn-green" onclick="ttFinish()">Complete Exercise →</button>
+        </div>
+      </div>
+
+      <div class="tt-step-panel" id="tt-panel-debrief" style="display:none">
+        <div class="debrief-box">
+          <div class="db-header">
+            <span class="db-icon">✓</span>
+            <div>
+              <div class="db-label">Exercise Complete — Debrief</div>
+              <div class="db-sub">Key takeaways from this scenario</div>
+            </div>
+          </div>
+          <div class="db-grid">
+            <div class="db-item">Never give credentials over the phone</div>
+            <div class="db-item">Urgency is a pressure tactic, not a reason</div>
+            <div class="db-item">Verify independently — not via the caller</div>
+            <div class="db-item">Report even when you said no</div>
+            <div class="db-item">Real IT never needs your password</div>
+            <div class="db-item">Colleagues may be targeted simultaneously</div>
+            <div class="db-item">Social media makes names and teams findable</div>
+            <div class="db-item">Your report protects the whole team</div>
+          </div>
+          <div class="odido-callout">
+            <div class="oc-label">🌐 The Odido Incident — February 2026</div>
+            <p>Attackers used phone impersonation, urgency framing, and internal language to access Odido's customer database. <strong>6.39 million records</strong> were stolen. No malware was used — the entire attack worked through a single phone call.</p>
+          </div>
+        </div>
+        <div class="tt-actions">
+          <button class="btn-outline" onclick="ttBack('debrief')">← Review steps</button>
+          <button class="btn-primary btn-green" onclick="startQuiz()">Take the quiz now →</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════ QUIZ ════════════════════════════ -->
+  <main id="screen-quiz" class="screen" role="main">
+    <div class="page-wrap">
+      <div class="quiz-header">
+        <div class="qh-top">
+          <span id="q-label" class="qh-counter">Question 1 of 15</span>
+          <span id="q-score-display" class="qh-score"></span>
+        </div>
+        <div class="quiz-progress-track" role="progressbar" aria-label="Quiz progress">
+          <div class="quiz-progress-fill" id="q-fill"></div>
+        </div>
+      </div>
+      <div id="q-box" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════ RESULTS ════════════════════════════ -->
+  <main id="screen-results" class="screen" role="main">
+    <div class="page-wrap">
+
+      <div class="results-hero" id="results-hero">
+        <div class="rh-score-wrap">
+          <div class="rh-ring" id="rh-ring">
+            <svg class="ring-svg" viewBox="0 0 80 80" aria-hidden="true">
+              <circle class="ring-bg" cx="40" cy="40" r="34"/>
+              <circle class="ring-fill" id="ring-fill" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            </svg>
+            <span class="ring-label" id="ring-label">0/15</span>
+          </div>
+        </div>
+        <div class="rh-text">
+          <div class="rh-title" id="rh-title">Well done!</div>
+          <div class="rh-sub" id="rh-sub">Here are your personalised tips.</div>
+        </div>
+      </div>
+
+      <div id="r-tips"></div>
+
+      <!-- ═══ CERTIFICATE ═══ -->
+      <div class="cert-section">
+        <div class="cert-section-head">
+          <div class="tips-section-label" style="border:none;margin:0;padding:0;">🎓 Your Certificate of Completion</div>
+          <p class="cert-hint">Add your name, then download or print it as a PDF for your records or your team.</p>
+        </div>
+
+        <div class="cert-name-row">
+          <label for="cert-name-input">Name on certificate</label>
+          <input type="text" id="cert-name-input" placeholder="Type your full name" maxlength="40" oninput="updateCertName(this.value)" autocomplete="name">
+        </div>
+
+        <!-- Printable certificate -->
+        <div class="certificate" id="certificate">
+          <div class="cert-border">
+            <div class="cert-top">
+              <img src="assets/logo.png" alt="Resilience logo" class="cert-logo">
+              <div class="cert-org">Resilience Cybersecurity Team</div>
+              <div class="cert-program">Cyber Awareness Program</div>
+            </div>
+
+            <div class="cert-title">Certificate of Completion</div>
+            <div class="cert-presented">This is to certify that</div>
+            <div class="cert-name" id="cert-name">Participant</div>
+            <div class="cert-body-text">
+              has successfully completed the <strong>Cyber Wednesday Awareness Module</strong>, demonstrating
+              the ability to recognise and respond to real-world social-engineering and cybersecurity threats.
+            </div>
+
+            <div class="cert-stats">
+              <div class="cert-stat">
+                <div class="cert-stat-num" id="cert-score">0/15</div>
+                <div class="cert-stat-label">Quiz Score</div>
+              </div>
+              <div class="cert-stat">
+                <div class="cert-stat-num" id="cert-grade">—</div>
+                <div class="cert-stat-label">Rating</div>
+              </div>
+              <div class="cert-stat">
+                <div class="cert-stat-num" id="cert-date">—</div>
+                <div class="cert-stat-label">Date</div>
+              </div>
+            </div>
+
+            <div class="cert-footer">
+              <div class="cert-sign">
+                <div class="cert-sign-line"></div>
+                <div class="cert-sign-label">Resilience Security Lead</div>
+              </div>
+              <div class="cert-seal">🛡️<span>Verified<br>Awareness</span></div>
+              <div class="cert-sign">
+                <div class="cert-sign-line"></div>
+                <div class="cert-sign-label">Date of Completion</div>
+              </div>
+            </div>
+
+            <div class="cert-tagline">#CyberWednesday · Know the Threat. Build the Habit.</div>
+          </div>
+        </div>
+
+        <div class="cert-actions">
+          <button class="btn-primary" onclick="printCertificate()">⬇ Download / Print Certificate (PDF)</button>
+        </div>
+      </div>
+
+      <div class="challenge-box">
+        <div class="cb-eyebrow">🎯 This Week's Challenge</div>
+        <div class="cb-title">60 seconds. Right now. Before you close this.</div>
+        <p class="cb-desc">Save your IT team's real contact number somewhere you can reach it fast — not buried in email. That 60-second action would have broken the Odido attack that stole 6.39 million records.</p>
+      </div>
+
+      <div class="results-actions">
+        <button class="btn-outline" onclick="restartQuiz()">↺ Retake quiz</button>
+        <button class="btn-outline" onclick="goHome()">← Back to home</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <img src="assets/logo.png" alt="Resilience logo" class="footer-logo">
+      <p><strong>Resilience Cybersecurity Team</strong> · Cyber Awareness Module · November 2026 · <span>#CyberWednesday</span></p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
